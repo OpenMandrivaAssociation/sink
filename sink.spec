@@ -33,6 +33,7 @@ BuildRequires:	cmake(KAsync)
 BuildRequires:	pkgconfig(libcurl)
 BuildRequires:	pkgconfig(libgit2)
 BuildRequires:	pkgconfig(readline)
+BuildRequires:	pkgconfig(libsasl2)
 BuildRequires:	lmdb-devel
 
 BuildRequires:  flatbuffers-devel >= 1.4
