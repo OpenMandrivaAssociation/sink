@@ -25,6 +25,7 @@ BuildRequires:	cmake(KF5CalendarCore)
 BuildRequires:	cmake(Qt5Core)
 BuildRequires:	cmake(Qt5Gui)
 BuildRequires:	cmake(Qt5Widgets)
+BuildRequires:	cmake(Qt5Concurrent)
 BuildRequires:	cmake(KPimKDAV2)
 BuildRequires:	cmake(KIMAP2)
 BuildRequires:	cmake(KAsync)
@@ -36,12 +37,15 @@ BuildRequires:	lmdb-devel
 BuildRequires:  flatbuffers-devel >= 1.4
 BuildRequires:  xapian-core-devel >= 1.4
 
+Requires: %{libname} = %{EVRD}
+
 %description
 Backend for the Kube mail system
 
 %package -n %{libname}
 Summary:        Backend for the Kube mail system
 Group:		System/Libraries
+Requires:	%{name} = %{EVRD}
 
 %description -n %{libname}
 Backend for the Kube mail system
