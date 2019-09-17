@@ -6,15 +6,23 @@
 # sink doesn't follow KDE's usual versioning scheme yet, it's always unstable
 %define stable unstable
 
+%define snapshot 20190917
+
 Name:           sink
-Version:        0.7.0
-Release:        1
+Version:        0.8.1
 Summary:        Backend for the Kube mail system
 
 Group:          Applications/Desktop
 License:        GPL
 URL:            https://www.kube-project.com/
+%if 0%{snapshot}
+Release:        0.%{snapshot}.1
+# git://anongit.kde.org/sink.git
+Source0:	sink-%{version}-%{snapshot}.tar.xz
+%else
+Release:        1
 Source0:        http://download.kde.org/%{stable}/sink/%{version}/src/%{name}-%{version}.tar.xz
+%endif
 
 BuildRequires:  cmake ninja
 BuildRequires:  cmake(ECM)
@@ -61,7 +69,11 @@ Group:		Development/KDE and Qt
 Development headers for sink
 
 %prep
-%setup -q
+%if %{snapshot}
+%autosetup -p1 -n %{name}-%{version}-%{snapshot}
+%else
+%autosetup -p1
+%endif
 %cmake_kde5
 
 %build
@@ -78,6 +90,8 @@ rm %{buildroot}%{_prefix}/bin/sink_smtp_test
 %{_libdir}/libsink.so.%{major}*
 
 %files
+%{_bindir}/populatecalendar.sh
+%{_bindir}/resetcalendar.sh
 %{_bindir}/hawd
 %{_bindir}/sink_synchronizer
 %{_bindir}/sinksh
