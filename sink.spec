@@ -9,18 +9,18 @@
 %define snapshot 20200905
 
 Name:           sink
-Version:        0.8.1
+Version:	0.8.80
 Summary:        Backend for the Kube mail system
 
 Group:          Applications/Desktop
 License:        GPL
 URL:            https://www.kube-project.com/
 %if 0%{snapshot}
-Release:        0.%{snapshot}.1
+Release:	1
 # https://invent.kde.org/pim/sink
 Source0:	https://invent.kde.org/pim/sink/-/archive/master/sink-master.tar.bz2
 %else
-Release:        1
+Release:	1
 Source0:        http://download.kde.org/%{stable}/sink/%{version}/src/%{name}-%{version}.tar.xz
 %endif
 Patch:		sink-compile.patch
