@@ -24,7 +24,7 @@ Release:	1
 #Source0:        http://download.kde.org/%{stable}/sink/%{version}/src/%{name}-%{version}.tar.xz
 Source0:        https://invent.kde.org/pim/sink/-/archive/v%{version}/%{name}-v%{version}.tar.bz2
 %endif
-Patch:		sink-compile.patch
+#Patch:		sink-compile.patch
 
 BuildRequires:  cmake ninja
 BuildRequires:  cmake(ECM)
