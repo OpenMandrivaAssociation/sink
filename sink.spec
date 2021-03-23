@@ -74,7 +74,7 @@ Development headers for sink
 #if %{snapshot}
 #autosetup -p1 -n %{name}-master
 #else
-%autosetup -p1
+%autosetup -p1 -n %{name}-v%{version}
 #endif
 %cmake_kde5
 
