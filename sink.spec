@@ -71,11 +71,11 @@ Group:		Development/KDE and Qt
 Development headers for sink
 
 %prep
-%if %{snapshot}
-%autosetup -p1 -n %{name}-master
-%else
+#if %{snapshot}
+#autosetup -p1 -n %{name}-master
+#else
 %autosetup -p1
-%endif
+#endif
 %cmake_kde5
 
 %build
