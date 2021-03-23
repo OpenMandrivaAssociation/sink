@@ -6,10 +6,10 @@
 # sink doesn't follow KDE's usual versioning scheme yet, it's always unstable
 %define stable unstable
 
-%define snapshot 20200905
+%define snapshot %{nil}
 
 Name:           sink
-Version:	0.8.80
+Version:	0.9.0
 Summary:        Backend for the Kube mail system
 
 Group:          Applications/Desktop
@@ -21,7 +21,8 @@ Release:	1
 Source0:	https://invent.kde.org/pim/sink/-/archive/master/sink-master.tar.bz2
 %else
 Release:	1
-Source0:        http://download.kde.org/%{stable}/sink/%{version}/src/%{name}-%{version}.tar.xz
+#Source0:        http://download.kde.org/%{stable}/sink/%{version}/src/%{name}-%{version}.tar.xz
+Source0:        https://invent.kde.org/pim/sink/-/archive/v%{version}/%{name}-v%{version}.tar.bz2
 %endif
 Patch:		sink-compile.patch
 
