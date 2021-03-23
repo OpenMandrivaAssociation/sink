@@ -6,10 +6,10 @@
 # sink doesn't follow KDE's usual versioning scheme yet, it's always unstable
 %define stable unstable
 
-%define snapshot 20200905
+%define snapshot %{nil}
 
 Name:           sink
-Version:	0.8.80
+Version:	0.9.0
 Summary:        Backend for the Kube mail system
 
 Group:          Applications/Desktop
@@ -21,9 +21,10 @@ Release:	1
 Source0:	https://invent.kde.org/pim/sink/-/archive/master/sink-master.tar.bz2
 %else
 Release:	1
-Source0:        http://download.kde.org/%{stable}/sink/%{version}/src/%{name}-%{version}.tar.xz
+#Source0:        http://download.kde.org/%{stable}/sink/%{version}/src/%{name}-%{version}.tar.xz
+Source0:        https://invent.kde.org/pim/sink/-/archive/v%{version}/%{name}-v%{version}.tar.bz2
 %endif
-Patch:		sink-compile.patch
+#Patch:		sink-compile.patch
 
 BuildRequires:  cmake ninja
 BuildRequires:  cmake(ECM)
@@ -39,6 +40,7 @@ BuildRequires:	cmake(Qt5Test)
 BuildRequires:	cmake(KPimKDAV2)
 BuildRequires:	cmake(KIMAP2)
 BuildRequires:	cmake(KAsync)
+BuildRequires:  pkgconfig(gpgme)
 BuildRequires:	pkgconfig(libcurl)
 BuildRequires:	pkgconfig(libgit2)
 BuildRequires:	pkgconfig(readline)
@@ -70,11 +72,11 @@ Group:		Development/KDE and Qt
 Development headers for sink
 
 %prep
-%if %{snapshot}
-%autosetup -p1 -n %{name}-master
-%else
-%autosetup -p1
-%endif
+#if %{snapshot}
+#autosetup -p1 -n %{name}-master
+#else
+%autosetup -p1 -n %{name}-v%{version}
+#endif
 %cmake_kde5
 
 %build
