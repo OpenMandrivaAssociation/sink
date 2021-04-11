@@ -20,7 +20,7 @@ Release:	1
 # https://invent.kde.org/pim/sink
 Source0:	https://invent.kde.org/pim/sink/-/archive/master/sink-master.tar.bz2
 %else
-Release:	1
+Release:	2
 #Source0:        http://download.kde.org/%{stable}/sink/%{version}/src/%{name}-%{version}.tar.xz
 Source0:        https://invent.kde.org/pim/sink/-/archive/v%{version}/%{name}-v%{version}.tar.bz2
 %endif
