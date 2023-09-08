@@ -6,17 +6,17 @@
 # sink doesn't follow KDE's usual versioning scheme yet, it's always unstable
 %define stable unstable
 
-%define snapshot %{nil}
+%define snapshot 20230809
 
 Name:           sink
-Version:	0.9.0
+Version:	0.9.1
 Summary:        Backend for the Kube mail system
 
 Group:          Applications/Desktop
 License:        GPL
 URL:            https://www.kube-project.com/
 %if 0%{snapshot}
-Release:	2
+Release:	0.%{snapshot}.1
 # https://invent.kde.org/pim/sink
 Source0:	https://invent.kde.org/pim/sink/-/archive/master/sink-master.tar.bz2
 %else
@@ -24,7 +24,7 @@ Release:	3
 #Source0:        http://download.kde.org/%{stable}/sink/%{version}/src/%{name}-%{version}.tar.xz
 Source0:        https://invent.kde.org/pim/sink/-/archive/v%{version}/%{name}-v%{version}.tar.bz2
 %endif
-#Patch:		sink-compile.patch
+Patch:		sink-compile.patch
 
 BuildRequires:  cmake ninja
 BuildRequires:  cmake(ECM)
@@ -72,11 +72,7 @@ Group:		Development/KDE and Qt
 Development headers for sink
 
 %prep
-#if %{snapshot}
-#autosetup -p1 -n %{name}-master
-#else
-%autosetup -p1 -n %{name}-v%{version}
-#endif
+%autosetup -p1 -n %{name}-%{?snapshot:master}%{!?snapshot:v%{version}}
 %cmake_kde5
 
 %build
@@ -105,3 +101,4 @@ rm %{buildroot}%{_prefix}/bin/sink_smtp_test
 %{_includedir}/sink
 %{_libdir}/cmake/Sink
 %{_libdir}/libsink.so
+%{_libdir}/libsink_resource_dummy.a

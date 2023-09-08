@@ -1,33 +1,67 @@
-diff -up sink-master/tests/storagetest.cpp.omv~ sink-master/tests/storagetest.cpp
---- sink-master/tests/storagetest.cpp.omv~	2020-09-05 20:30:24.539014360 +0200
-+++ sink-master/tests/storagetest.cpp	2020-09-05 20:31:02.595190297 +0200
-@@ -802,7 +802,9 @@ private slots:
-         });
+diff -up sink-master/common/domaintypeadaptorfactoryinterface.h.omv~ sink-master/common/domaintypeadaptorfactoryinterface.h
+--- sink-master/common/domaintypeadaptorfactoryinterface.h.omv~	2023-09-08 20:16:51.569243867 +0200
++++ sink-master/common/domaintypeadaptorfactoryinterface.h	2023-09-08 20:19:58.193564075 +0200
+@@ -20,6 +20,7 @@
  
-         QCOMPARE(numValues, 1);
-+#if 0
-         QCOMPARE(resultKey, {0});
-+#endif
-         QCOMPARE(result, QByteArray{"value1"});
+ #include "sink_export.h"
+ #include <QSharedPointer>
++#include <flatbuffers/flatbuffer_builder.h>
  
-         int numValues2 = db.scan(1, [&](size_t key, const QByteArray &value) -> bool {
-@@ -812,7 +814,9 @@ private slots:
-         });
+ class TypeIndex;
+ namespace Sink {
+@@ -30,10 +31,6 @@ class ApplicationDomainType;
+ struct Entity;
+ }
  
-         QCOMPARE(numValues2, 1);
-+#if 0
-         QCOMPARE(resultKey, {1});
-+#endif
-         QCOMPARE(result, QByteArray{"value2"});
+-namespace flatbuffers {
+-class FlatBufferBuilder;
+-}
+-
+ class SINK_EXPORT DomainTypeAdaptorFactoryInterface
+ {
+ public:
+diff -up sink-master/tests/dummyresourcewritebenchmark.cpp.omv~ sink-master/tests/dummyresourcewritebenchmark.cpp
+--- sink-master/tests/dummyresourcewritebenchmark.cpp.omv~	2023-09-08 20:35:08.352078020 +0200
++++ sink-master/tests/dummyresourcewritebenchmark.cpp	2023-09-08 20:35:14.307144689 +0200
+@@ -57,7 +57,7 @@ static QByteArray createEntityBuffer(siz
+ 
+     flatbuffers::FlatBufferBuilder fbb;
+     auto type = fbb.CreateString(Sink::ApplicationDomain::getTypeName<Sink::ApplicationDomain::Mail>().toStdString().data());
+-    auto delta = fbb.CreateVector<uint8_t>(entityFbb.GetBufferPointer(), entityFbb.GetSize());
++    auto delta = fbb.CreateVector(entityFbb.GetBufferPointer(), entityFbb.GetSize());
+     Sink::Commands::CreateEntityBuilder builder(fbb);
+     builder.add_domainType(type);
+     builder.add_delta(delta);
+diff -up sink-master/tests/pipelinetest.cpp.omv~ sink-master/tests/pipelinetest.cpp
+--- sink-master/tests/pipelinetest.cpp.omv~	2023-09-08 20:34:36.238718259 +0200
++++ sink-master/tests/pipelinetest.cpp	2023-09-08 20:34:45.744824798 +0200
+@@ -88,7 +88,7 @@ QByteArray createEntityCommand(const fla
+ {
+     flatbuffers::FlatBufferBuilder fbb;
+     auto type = fbb.CreateString(Sink::ApplicationDomain::getTypeName<Sink::ApplicationDomain::Event>().toStdString().data());
+-    auto delta = fbb.CreateVector<uint8_t>(entityFbb.GetBufferPointer(), entityFbb.GetSize());
++    auto delta = fbb.CreateVector(entityFbb.GetBufferPointer(), entityFbb.GetSize());
+     Sink::Commands::CreateEntityBuilder builder(fbb);
+     builder.add_domainType(type);
+     builder.add_delta(delta);
+@@ -112,7 +112,7 @@ QByteArray modifyEntityCommand(const fla
+     for (const auto &modified : modifiedProperties) {
+         modifiedVector.push_back(fbb.CreateString(modified.toStdString()));
      }
- 
-@@ -901,7 +905,9 @@ private slots:
-                 return false;
-             });
- 
-+#if 0
-             QCOMPARE(resultKey, {0x100});
-+#endif
-             QCOMPARE(resultValue, QByteArray{"hello"});
-         }
-     }
+-    auto delta = fbb.CreateVector<uint8_t>(entityFbb.GetBufferPointer(), entityFbb.GetSize());
++    auto delta = fbb.CreateVector(entityFbb.GetBufferPointer(), entityFbb.GetSize());
+     auto modifiedPropertiesVector = fbb.CreateVector(modifiedVector);
+     Sink::Commands::ModifyEntityBuilder builder(fbb);
+     builder.add_domainType(type);
+diff -up sink-master/tests/testimplementations.h.omv~ sink-master/tests/testimplementations.h
+--- sink-master/tests/testimplementations.h.omv~	2023-09-08 20:31:15.178454805 +0200
++++ sink-master/tests/testimplementations.h	2023-09-08 20:33:57.036278491 +0200
+@@ -125,7 +125,7 @@ QByteArray createCommand(const DomainTyp
+     domainTypeAdaptorFactory.createBuffer(domainObject, entityFbb);
+     flatbuffers::FlatBufferBuilder fbb;
+     auto type = fbb.CreateString(Sink::ApplicationDomain::getTypeName<DomainType>().toStdString().data());
+-    auto delta = fbb.CreateVector<uint8_t>(entityFbb.GetBufferPointer(), entityFbb.GetSize());
++    auto delta = fbb.CreateVector(entityFbb.GetBufferPointer(), entityFbb.GetSize());
+     Sink::Commands::CreateEntityBuilder builder(fbb);
+     builder.add_domainType(type);
+     builder.add_delta(delta);
