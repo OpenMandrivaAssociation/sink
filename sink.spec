@@ -20,7 +20,7 @@ Release:	0.%{snapshot}.1
 # https://invent.kde.org/pim/sink
 Source0:	https://invent.kde.org/pim/sink/-/archive/master/sink-master.tar.bz2
 %else
-Release:	3
+Release:	1
 #Source0:        http://download.kde.org/%{stable}/sink/%{version}/src/%{name}-%{version}.tar.xz
 Source0:        https://invent.kde.org/pim/sink/-/archive/v%{version}/%{name}-v%{version}.tar.bz2
 %endif
@@ -45,6 +45,7 @@ BuildRequires:	pkgconfig(libcurl)
 BuildRequires:	pkgconfig(libgit2)
 BuildRequires:	pkgconfig(readline)
 BuildRequires:	pkgconfig(libsasl2)
+BuildRequires:	pkgconfig(libzstd)
 BuildRequires:	lmdb-devel
 
 BuildRequires:  flatbuffers-devel >= 1.4
